@@ -85,7 +85,7 @@ export default function Home() {
             <div className={styles.photoContainer}>
               <div className={styles.photoFrame}>
                 <img 
-                  src={`${import.meta.env.BASE_URL}karl-keshavarzi.jpg`}
+                  src="/karl-keshavarzi.jpg" 
                   alt="Karl Keshavarzi"
                   className={styles.photo}
                 />
