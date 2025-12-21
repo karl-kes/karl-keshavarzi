@@ -112,7 +112,7 @@ export default function Home() {
             <motion.h2 className={styles.subtitle} variants={itemVariants}>
               <span className={styles.arrow}>→</span>
               Computer Engineering @ University of Waterloo
-              <span className={styles.gpa}>GPA: 3.8 / 4.0</span>
+              <span className={styles.gpa}>GPA: 3.9 / 4.0</span>
             </motion.h2>
 
             <motion.div className={styles.bio} variants={itemVariants}>
@@ -123,7 +123,7 @@ export default function Home() {
               <p>
                 Built an <span className={styles.accent}>N-body Gravitational Simulator</span> achieving 
                 500M+ FLOP/s. Currently working on a <span className={styles.accent}>coilgun</span> delivering 200J 
-                to accelerate projectiles to 100+ km/h.
+                to accelerate projectiles to 100+ km/h an <span className={styles.accent}>FDTD E&M Wave Solver</span>.
               </p>
               <p>
                 Also co-authoring the official <span className={styles.accent}>ECE 105 Course Text</span> for 
