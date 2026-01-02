@@ -24,6 +24,14 @@ export default function Projects() {
 
   const projects = [
     {
+      title: 'FDTD Electromagnetic Solver',
+      subtitle: 'Maxwell\'s equations solver with 3D visualization',
+      tech: ['C/C++', 'OpenMP', 'Python', 'Plotly', 'NumPy'],
+      description: 'Implemented 3D Yee-cell FDTD solver for Maxwell\'s equations with time-domain field evolution. Designed cache-efficient flattened storage with RAII memory management. Achieved 8× speedup via OpenMP parallelization on 125K-cell grids over 10,000+ timesteps. Enforced CFL stability constraint with 97%+ energy conservation. Built binary I/O pipeline reducing storage overhead by 6×.',
+      status: 'In Progress',
+      equation: '∇ × E = -∂B/∂t',
+    },
+    {
       title: 'N-Body Gravitational Simulator',
       subtitle: 'High-performance physics simulation engine',
       tech: ['C/C++', 'OpenMP', 'Python', 'VPython', 'Pandas', 'NumPy'],
@@ -42,8 +50,8 @@ export default function Projects() {
     {
       title: 'ECE 105 Course Text',
       subtitle: 'Official mechanics curriculum for 400+ students',
-      tech: ['LaTeX', 'TikZ', 'Physics', 'Technical Writing'],
-      description: 'Selected by Course Coordinator to co-author the official ECE 105 (Classical Mechanics) Course Text for 400+ engineering students at the University of Waterloo. Modernized curriculum infrastructure using LaTeX and TikZ; developed 100+ problems and a comprehensive solutions manual.',
+      tech: ['LaTeX', 'Physics', 'Technical Writing'],
+      description: 'Selected by Course Coordinator to co-author the official ECE 105 (Classical Mechanics) Course Text for 400+ engineering students at the University of Waterloo. Modernized curriculum infrastructure using LaTeX, developed 100+ problems and a comprehensive solutions manual.',
       status: 'In Progress',
       equation: 'τ = Iα',
     },
@@ -78,7 +86,7 @@ export default function Projects() {
             <span className={styles.notation}>Σ projects</span>
             <h1 className={styles.title}>Projects</h1>
             <p className={styles.subtitle}>
-              <span className={styles.quote}>"I am Iron Man"</span> — A collection of things I've built and am building.
+              <span className={styles.quote}>"I am Iron Man"</span> — A collection of things I've built and am building. You can find them on Github.
             </p>
           </div>
         </motion.div>
