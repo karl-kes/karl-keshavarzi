@@ -1,130 +1,63 @@
-import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 import styles from './Navigation.module.css';
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { theme, toggle } = useTheme();
   
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
-  
-  const navLinks = [
-    { path: '/', label: 'Home', notation: 'f(0)' },
-    { path: '/projects', label: 'Projects', notation: 'Σ' },
-    { path: '/blog', label: 'Blog', notation: '∂/∂t' },
-    { path: '/karlkeshavarziresume.pdf', label: 'Resume', notation: 'CV', external: true },
+  const links = [
+    { path: '/', label: 'Home' },
+    { path: '/projects', label: 'Projects' },
+    { path: '/blog', label: 'Blog' },
   ];
-  
+
   return (
-    <motion.header 
-      className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-    >
-      <nav className={styles.nav}>
+    <nav className={styles.nav}>
+      <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          <span className={styles.logoSymbol}>λ</span>
-          <span className={styles.logoText}>Karl Keshavarzi</span>
+          <span className={styles.name}>Karl Keshavarzi</span>
         </Link>
         
-        <ul className={styles.navLinks}>
-          {navLinks.map((link, i) => (
-            <motion.li 
-              key={link.path}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * i, duration: 0.4 }}
-            >
-              {link.external ? (
-                <a 
-                  href={link.path} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={styles.navLink}
-                >
-                  <span className={styles.notation}>{link.notation}</span>
-                  <span className={styles.label}>{link.label}</span>
-                </a>
-              ) : (
-                <Link 
-                  to={link.path} 
-                  className={`${styles.navLink} ${location.pathname === link.path ? styles.active : ''}`}
-                >
-                  <span className={styles.notation}>{link.notation}</span>
-                  <span className={styles.label}>{link.label}</span>
-                </Link>
-              )}
-            </motion.li>
-          ))}
-        </ul>
-        
-        <button 
-          className={`${styles.menuButton} ${isOpen ? styles.open : ''}`}
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </nav>
-      
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            className={styles.mobileMenu}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+        <div className={styles.right}>
+          <div className={styles.links}>
+            {links.map(({ path, label }) => (
+              <Link
+                key={path}
+                to={path}
+                className={`${styles.link} ${location.pathname === path ? styles.active : ''}`}
+              >
+                {label}
+                {location.pathname === path && (
+                  <motion.div
+                    className={styles.indicator}
+                    layoutId="nav-indicator"
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
+                )}
+              </Link>
+            ))}
+          </div>
+          
+          <button 
+            onClick={toggle} 
+            className={styles.themeToggle}
+            aria-label="Toggle theme"
           >
-            <ul className={styles.mobileNavLinks}>
-              {navLinks.map((link, i) => (
-                <motion.li 
-                  key={link.path}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * i }}
-                >
-                  {link.external ? (
-                    <a 
-                      href={link.path} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className={styles.mobileNavLink}
-                    >
-                      <span className={styles.notation}>{link.notation}</span>
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link 
-                      to={link.path} 
-                      className={`${styles.mobileNavLink} ${location.pathname === link.path ? styles.active : ''}`}
-                    >
-                      <span className={styles.notation}>{link.notation}</span>
-                      {link.label}
-                    </Link>
-                  )}
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+            {theme === 'dark' ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="12" cy="12" r="5"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 }

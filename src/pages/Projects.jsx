@@ -1,147 +1,107 @@
 import { motion } from 'framer-motion';
 import styles from './Projects.module.css';
 
+const projects = [
+  {
+    title: 'Computational Electromagnetics Solver',
+    description: '3D Yee-cell FDTD solver for Maxwell\'s equations. Cache-efficient field storage with RAII memory management. Achieved 360× speedup via OpenMP parallelization on 125K-cell grids with 98%+ energy conservation.',
+    tech: ['C/C++', 'OpenMP', 'Python', 'Plotly'],
+    link: 'https://github.com/karl-kes/Computational-Electromagnetics-Solver',
+    equation: '∇×E = −∂B/∂t',
+  },
+  {
+    title: 'N-Body Gravitational Simulator',
+    description: 'Symplectic Velocity Verlet integration achieving 99.998% energy conservation over 100+ year simulations. 12× speedup with OpenMP, rendering 1000+ bodies at 60+ FPS via VPython.',
+    tech: ['C/C++', 'OpenMP', 'Python', 'VPython'],
+    link: 'https://github.com/karl-kes/N-Body-Gravity-Simulator',
+    equation: 'F = Gm₁m₂/r²',
+  },
+  {
+    title: 'Electromagnetic Propulsion System',
+    description: '3-stage coilgun with 200+ turn 16AWG coils powered by 200V/9,400µF (200J) capacitor bank. Arduino-controlled gate timing for 180A+ inrush currents. Custom Altium PCB targeting 100+ km/h velocity.',
+    tech: ['C/C++', 'Arduino', 'Altium'],
+    status: 'In Progress',
+    equation: 'F = μ₀I²L/2πd',
+  },
+  {
+    title: 'ExoDiscover',
+    description: 'NASA Space Apps exoplanet visualization platform. Integrated XGBoost/CNN models (70% detection accuracy) with React/Three.js frontend rendering 20,000+ exoplanets at 60FPS. Top 4 finish among 150 participants.',
+    tech: ['Python', 'Flask', 'React', 'Three.js'],
+    link: 'https://github.com/wentingcoding960206/ExoDiscover',
+    equation: 'L ∝ R²T⁴',
+  },
+  {
+    title: 'Classical Mechanics Problem Sets',
+    description: '100+ problems covering kinematics through wave mechanics. Co-authored for UWaterloo ECE 105 official course text, serving 400+ students.',
+    tech: ['LaTeX', 'Python'],
+    link: 'https://github.com/karl-kes/Classical_Mechanics_PSets',
+    equation: 'd/dt(∂L/∂q̇) = ∂L/∂q',
+  },
+  {
+    title: 'K1 Racing',
+    description: 'Racing simulator game inspired by Formula One and Mario Kart. Built as an early programming project exploring game physics and graphics.',
+    tech: ['Processing'],
+    link: 'https://github.com/karl-kes/K1-Racing',
+  },
+];
+
 export default function Projects() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
-    },
-  };
-
-  const projects = [
-    {
-      title: 'FDTD Electromagnetic Solver',
-      subtitle: 'Maxwell\'s equations solver with 3D visualization',
-      tech: ['C/C++', 'OpenMP', 'Python', 'Plotly', 'NumPy'],
-      description: 'Implemented 3D Yee-cell FDTD solver for Maxwell\'s equations with time-domain field evolution. Designed cache-efficient flattened storage with RAII memory management. Achieved 8× speedup via OpenMP parallelization on 125K-cell grids over 10,000+ timesteps. Enforced CFL stability constraint with 97%+ energy conservation. Built binary I/O pipeline reducing storage overhead by 6×.',
-      status: 'In Progress',
-      equation: '∇ × E = -∂B/∂t',
-    },
-    {
-      title: 'N-Body Gravitational Simulator',
-      subtitle: 'High-performance physics simulation engine',
-      tech: ['C/C++', 'OpenMP', 'Python', 'VPython', 'Pandas', 'NumPy'],
-      description: 'Developed gravitational simulator using OOP, achieving sub-0.0002% energy drift over 31.5M second simulations. Simulated 1000+ bodies in parallel using OpenMP, optimized to 500M+ FLOP/s. Implemented symplectic Velocity Verlet integration for accurate orbital mechanics with 60+ FPS 3D rendering.',
-      status: 'Complete',
-      equation: 'F = Gm₁m₂/r²',
-    },
-    {
-      title: 'Electromagnetic Propulsion System',
-      subtitle: 'Multi-stage coilgun with precision timing',
-      tech: ['C/C++', 'Python', 'Arduino', 'Altium'],
-      description: 'Designed 3-stage accelerator with 200+ turn 16AWG coils and 10x 25V/4700µF capacitor bank. Scaled power delivery to 200J, handling 180A+ inrush from 200V/9,400µF bank with Arduino-controlled gate timing. Targeting 100+ km/h projectile velocity with custom PCB design.',
-      status: 'In Progress',
-      equation: 'F = BIL',
-    },
-    {
-      title: 'ECE 105 Course Text',
-      subtitle: 'Official mechanics curriculum for 400+ students',
-      tech: ['LaTeX', 'Physics', 'Technical Writing'],
-      description: 'Selected by Course Coordinator to co-author the official ECE 105 (Classical Mechanics) Course Text for 400+ engineering students at the University of Waterloo. Modernized curriculum infrastructure using LaTeX, developed 100+ problems and a comprehensive solutions manual.',
-      status: 'In Progress',
-      equation: 'τ = Iα',
-    },
-    {
-      title: 'ExoDiscover',
-      subtitle: 'AI-powered exoplanet visualization',
-      tech: ['Python', 'Flask', 'React', 'Three.js', 'XGBoost/CNN'],
-      description: 'Integrated team\'s XGBoost/CNN AI models (70% detection accuracy) for NASA SpaceApps. Delivered dynamic React/Three.js interface rendering 3D visuals of 20,000+ exoplanets at 60FPS. Placed top 4 of all teams (150 participants) in 48 hours.',
-      status: 'Complete',
-      equation: 'P(planet) = σ(Wx)',
-    },
-    {
-      title: 'UWTranscriptEngine',
-      subtitle: 'Academic data management system',
-      tech: ['C/C++', 'OOP'],
-      description: 'Engineered a Transcript Engine across 12 modular files, utilizing object-oriented programming to model a 3-tier nested hierarchy for data management. Implemented algorithms that automate 2-level weighted average calculations, scaling from single assignments to full degree transcripts without memory leaks.',
-      status: 'Complete',
-      equation: 'GPA = Σwᵢgᵢ/Σwᵢ',
-    },
-  ];
-
   return (
     <div className={styles.projects}>
-      <motion.div 
-        className={styles.container}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.div className={styles.header} variants={itemVariants}>
-          <div className={styles.titleSection}>
-            <span className={styles.notation}>Σ projects</span>
-            <h1 className={styles.title}>Projects</h1>
-            <p className={styles.subtitle}>
-              <span className={styles.quote}>"I am Iron Man"</span> — A collection of things I've built and am building. You can find them on Github.
-            </p>
-          </div>
-        </motion.div>
+      <div className={styles.container}>
+        <motion.header
+          className={styles.header}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1>Projects</h1>
+          <p className={styles.subtitle}>A selection of things I've built.</p>
+        </motion.header>
 
-        <motion.div 
-          className={styles.axisLine}
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        />
-
-        <div className={styles.projectGrid}>
+        <div className={styles.grid}>
           {projects.map((project, i) => (
-            <motion.article 
+            <motion.article
               key={project.title}
-              className={styles.projectCard}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
+              className={styles.card}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
             >
               <div className={styles.cardHeader}>
-                <span className={styles.status} data-status={project.status.toLowerCase().replace(' ', '-')}>
-                  {project.status}
-                </span>
-                <span className={styles.equation}>{project.equation}</span>
+                <h2>{project.title}</h2>
+                {project.equation && (
+                  <span className={styles.equation}>{project.equation}</span>
+                )}
               </div>
               
-              <h3 className={styles.projectTitle}>{project.title}</h3>
-              <p className={styles.projectSubtitle}>{project.subtitle}</p>
+              {project.status && (
+                <span className={styles.status}>{project.status}</span>
+              )}
               
               <p className={styles.description}>{project.description}</p>
               
-              <div className={styles.techStack}>
-                {project.tech.map((tech) => (
-                  <span key={tech} className={styles.techTag}>{tech}</span>
-                ))}
+              <div className={styles.cardFooter}>
+                <div className={styles.tech}>
+                  {project.tech.map((t) => (
+                    <span key={t}>{t}</span>
+                  ))}
+                </div>
+                {project.link && (
+                  <a 
+                    href={project.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                  >
+                    View →
+                  </a>
+                )}
               </div>
-
-              {project.link && (
-                <a href={project.link} className={styles.projectLink}>
-                  View Project <span>→</span>
-                </a>
-              )}
             </motion.article>
           ))}
         </div>
-
-        <motion.div 
-          className={styles.comingSoon}
-          variants={itemVariants}
-        >
-          <span className={styles.comingSoonIcon}>⟨ ⟩</span>
-          <p>More detailed project breakdowns coming soon...</p>
-        </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 }
