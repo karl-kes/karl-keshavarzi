@@ -25,13 +25,13 @@ export default function Home() {
           
           <div className={styles.body}>
             <h1 className={styles.name}>Karl Keshavarzi</h1>
-            <p className={styles.title}>Computer Engineering @ UWaterloo</p>
+            <p className={styles.title}>Computer Engineering @ uWaterloo</p>
             
             <div className={styles.bio}>
               <p>
                 Building simulations, embedded systems, and software that sits 
-                close to the hardware. Currently doing research in microwave 
-                optomagnetics and developing drivers for the Waterloo Aerial Robotics Group.
+                close to the hardware. Currently developing a Finite-Difference Time-Domain Maxwell Solver
+                and an N-Body Physics Engine.
               </p>
             </div>
             
