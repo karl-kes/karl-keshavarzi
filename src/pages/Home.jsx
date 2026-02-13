@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
 export default function Home() {
@@ -54,6 +55,11 @@ export default function Home() {
           <div className={styles.signature}>
             <span className={styles.brace}>{'}'}</span>
           </div>
+          
+          {/* Valentine */}
+          <Link to="/valentine" className={styles.valentineLink}>
+            💕
+          </Link>
         </motion.div>
         
         {/* Physics decorations */}

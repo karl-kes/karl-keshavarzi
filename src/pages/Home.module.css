@@ -98,6 +98,20 @@
   color: var(--text);
 }
 
+/* Valentine link */
+.valentineLink {
+  display: inline-block;
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.valentineLink:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 /* Physics decorations */
 .physics {
   position: absolute;

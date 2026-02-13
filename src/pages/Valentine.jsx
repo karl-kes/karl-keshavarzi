@@ -86,10 +86,10 @@ export default function Valentine() {
                 ease: "easeInOut",
               }}
             >
-              😛😛😛
+              😛
             </motion.div>
             <h1>Yay</h1>
-            <p>I knew you'd say yes😒🙄</p>
+            <p>I knew you'd say yes🙄😒</p>
             
             {/* Happy cat */}
             <motion.div 
@@ -101,6 +101,8 @@ export default function Valentine() {
               <span className={styles.catEmoji}>😺</span>
               <span className={styles.catText}>the cat (benny) approves</span>
             </motion.div>
+            
+            <p className={styles.subtext}>See you soon 😊</p>
           </motion.div>
         </div>
       </div>
@@ -135,7 +137,7 @@ export default function Valentine() {
             className={styles.yesButton}
             onClick={() => setAccepted(true)}
             animate={{ scale: yesScale }}
-            whileHover={{ scale: yesScale + 0.05 }}
+            whileHover={{ scale: yesScale + 0.1 }}
             whileTap={{ scale: yesScale - 0.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
