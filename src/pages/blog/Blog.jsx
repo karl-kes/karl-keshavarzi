@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { postList } from './index';
 import styles from './Blog.module.css';
-
-const posts = [
-  {
-    slug: 'pre-waterloo-thoughts',
-    title: 'Before My First Term - Thoughts and Advice',
-    date: '2025-08-31',
-    excerpt: 'Reflections on the admission process, senior year, and looking forward to starting at Waterloo.',
-  },
-];
 
 export default function Blog() {
   return (
@@ -26,7 +18,7 @@ export default function Blog() {
         </motion.header>
 
         <div className={styles.posts}>
-          {posts.map((post, i) => (
+          {postList.map((post, i) => (
             <motion.article
               key={post.slug}
               initial={{ opacity: 0, y: 20 }}

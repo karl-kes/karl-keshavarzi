@@ -1,13 +1,9 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
 export default function Home() {
   return (
     <div className={styles.home}>
-      {/* Subtle grid background */}
-      <div className={styles.gridBg} />
-      
       <div className={styles.container}>
         <motion.div 
           className={styles.content}
@@ -26,13 +22,20 @@ export default function Home() {
           
           <div className={styles.body}>
             <h1 className={styles.name}>Karl Keshavarzi</h1>
-            <p className={styles.title}>Computer Engineering @ UWaterloo</p>
+            <p className={styles.title}>Computer Engineering @ University of Waterloo</p>
             
             <div className={styles.bio}>
               <p>
-                Building simulations, embedded systems, and software that sits 
-                close to the hardware. Currently doing research in microwave 
-                optomagnetics and developing drivers for the Waterloo Aerial Robotics Group.
+                I build simulations, embedded systems, and software that sits close to the hardware. 
+                My projects start with a physical system and end with working code.
+                Open to discussing new opportunities and collaborations. 
+                Feel free to reach out.
+              </p>
+            </div>
+
+            <div className={styles.bio}>
+              <p>
+                Email: karl.keshavarzi@uwaterloo.ca
               </p>
             </div>
             
@@ -43,9 +46,6 @@ export default function Home() {
               <a href="https://linkedin.com/in/karl-keshavarzi" target="_blank" rel="noopener noreferrer">
                 LinkedIn
               </a>
-              <a href="/Karl_Keshavarzi_Resume.pdf" target="_blank" rel="noopener noreferrer">
-                Resume
-              </a>
               <a href="mailto:karl.keshavarzi@uwaterloo.ca">
                 Email
               </a>
@@ -55,31 +55,16 @@ export default function Home() {
           <div className={styles.signature}>
             <span className={styles.brace}>{'}'}</span>
           </div>
-          
-          {/* Valentine */}
-          <Link to="/valentine" className={styles.valentineLink}>
-            💕
-          </Link>
         </motion.div>
-        
-        {/* Physics decorations */}
-        <div className={styles.physics}>
-          {/* Simple harmonic oscillator */}
-          <svg viewBox="0 0 120 80" className={styles.oscillator}>
-            <line x1="10" y1="40" x2="30" y2="40" stroke="currentColor" strokeWidth="0.5" />
-            <path 
-              d="M30 40 L35 35 L40 45 L45 35 L50 45 L55 35 L60 45 L65 40" 
-              stroke="currentColor" 
-              strokeWidth="0.5" 
-              fill="none"
-            />
-            <rect x="65" y="32" width="16" height="16" stroke="currentColor" strokeWidth="0.5" fill="none" />
-            <circle cx="73" cy="40" r="2" fill="currentColor" className={styles.mass} />
-          </svg>
-          
-          {/* Equation */}
-          <span className={styles.equation}>F = ma</span>
-        </div>
+
+        <motion.p 
+          className={styles.quote}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+        >
+          &ldquo;What I cannot create, I do not understand.&rdquo; — Richard Feynman
+        </motion.p>
       </div>
     </div>
   );

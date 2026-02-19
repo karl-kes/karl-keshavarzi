@@ -3,20 +3,6 @@
   display: flex;
   align-items: center;
   padding: 6rem 2rem 4rem;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Subtle grid background */
-.gridBg {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(var(--physics-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--physics-line) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
 }
 
 .container {
@@ -36,7 +22,7 @@
   margin-bottom: 0.5rem;
 }
 
-.signature:last-child {
+.signature:last-of-type {
   margin-top: 2rem;
   margin-bottom: 0;
 }
@@ -90,7 +76,7 @@
 
 .links a {
   font-size: 0.875rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   transition: color 0.2s;
 }
 
@@ -98,37 +84,22 @@
   color: var(--text);
 }
 
-/* Valentine link */
-.valentineLink {
-  display: inline-block;
-  margin-top: 2rem;
-  font-size: 1.25rem;
-  opacity: 0.6;
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-.valentineLink:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
 /* Physics decorations */
 .physics {
   position: absolute;
-  right: -6rem;
   top: 50%;
+  right: -140px;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.5rem;
   opacity: 0.12;
-  color: var(--text);
 }
 
 .oscillator {
-  width: 100px;
-  height: 70px;
+  width: 120px;
+  color: var(--text);
 }
 
 .mass {
@@ -136,18 +107,25 @@
 }
 
 @keyframes oscillate {
-  0%, 100% { transform: translateX(-4px); }
+  0%, 100% { transform: translateX(0); }
   50% { transform: translateX(4px); }
 }
 
 .equation {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-style: italic;
-  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
-@media (max-width: 800px) {
+.quote {
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
   .physics {
     display: none;
   }
@@ -155,14 +133,10 @@
 
 @media (max-width: 500px) {
   .home {
-    padding: 5rem 1.25rem 3rem;
+    padding: 6rem 1.25rem 3rem;
   }
   
   .name {
-    font-size: 1.6rem;
-  }
-  
-  .links {
-    gap: 1rem;
+    font-size: 1.5rem;
   }
 }
