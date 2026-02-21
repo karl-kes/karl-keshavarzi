@@ -9,7 +9,7 @@ export function ThemeProvider({ children }) {
       if (saved) return saved;
       return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
