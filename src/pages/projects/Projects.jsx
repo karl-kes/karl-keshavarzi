@@ -52,7 +52,7 @@ export default function Projects() {
                       rel="noopener noreferrer"
                       className={styles.viewLink}
                     >
-                      Read →
+                      Read
                     </a>
                   )}
                   {project.link && (
@@ -62,7 +62,7 @@ export default function Projects() {
                       rel="noopener noreferrer"
                       className={styles.viewLink}
                     >
-                      View →
+                      Github
                     </a>
                   )}
                 </div>
