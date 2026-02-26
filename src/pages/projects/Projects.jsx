@@ -44,16 +44,28 @@ export default function Projects() {
                     <span key={t}>{t}</span>
                   ))}
                 </div>
-                {project.link && (
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className={styles.viewLink}
-                  >
-                    View →
-                  </a>
-                )}
+                <div className={styles.links}>
+                  {project.paper && (
+                    <a
+                      href={project.paper}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.viewLink}
+                    >
+                      Read →
+                    </a>
+                  )}
+                  {project.link && (
+                    <a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={styles.viewLink}
+                    >
+                      View →
+                    </a>
+                  )}
+                </div>
               </div>
             </motion.article>
           ))}
