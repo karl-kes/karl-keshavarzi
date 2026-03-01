@@ -11,7 +11,7 @@ export const projects = [
     description: 'An N-body engine capable of simulating gravity using Newtonian Mechanics. Uses symplectic integration to conserve energy; validated against NASA JPL Horizons data.',
     tech: ['C++', 'OpenMP', 'Python', 'MatPlotLib'],
     link: 'https://github.com/karl-kes/N-Body-Physics-Engine',
-    paper: '/N_Body_Technical_Paper.pdf',
+    paper: 'https://raw.githubusercontent.com/karl-kes/N-Body-Physics-Engine/main/docs/N_Body_Technical_Paper.pdf',
     equation: 'F = Gm₁m₂/r²',
   },
   {
