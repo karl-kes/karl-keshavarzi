@@ -26,9 +26,10 @@ export default function Home() {
             
             <div className={styles.bio}>
               <p>
-                I build simulations, embedded systems, and software that sits close to the hardware. 
-                My projects start with a physical system and end with working code.
-                Open to discussing new opportunities and collaborations. 
+                I write low-level systems and HPC software: CUDA kernels, parallel solvers, and code
+                that lives close to the hardware. My research experience centers on distributed GPU
+                algorithms for maximal independent sets. I've recently begun work on ML compilers.
+                Open to discussing new opportunities and collaborations.
                 Feel free to reach out.
               </p>
             </div>
