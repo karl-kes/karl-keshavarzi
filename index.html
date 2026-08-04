@@ -259,12 +259,9 @@
 
   /* experience sits tighter than projects and has no hover affordance */
   .list.tight { gap: var(--u4); }
-  .org {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin: 0;
-  }
+  /* .org needs no rules of its own. It's a <p> inside .entry, so it already picks up
+     the serif, 15px and muted colour that the project blurbs use. An employer's name
+     is a person's words, not machine output, so it belongs in the serif. */
 
   .eq {
     font-family: var(--mono);
@@ -313,20 +310,27 @@
   a.entry h3 { font-weight: 500; }
 
   /* ---- footer ---- */
-  /* closing line of greet(), so the hero's flex gap handles its spacing */
-  .quote {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 15px;
-    color: var(--ink-soft);
-    margin: 0;
-    max-width: 60ch;
-  }
+  /* copyright left, quote right, both on one baseline. wraps to two rows
+     when the line gets too tight rather than overlapping. */
   footer {
     margin-top: var(--u8);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--u) var(--u3);
     font-family: var(--mono);
     font-size: 11px;
     color: var(--ink-soft);
+  }
+  /* 13px serif optically matches 11px mono on the same baseline */
+  .quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0;
+    text-align: right;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -346,6 +350,8 @@
     .cursor { height: 23px; width: 11px; vertical-align: -3px; }
     .hero { padding-top: var(--u6); }
     .entry-head { flex-direction: column; align-items: flex-start; gap: 4px; }
+    /* stacked in the footer, a right rag reads worse than a left one */
+    .quote { text-align: left; }
   }
 </style>
 </head>
@@ -383,11 +389,8 @@
     <div class="links">
       <a class="inv" href="https://github.com/karl-kes" target="_blank" rel="noopener">GitHub</a>
       <a class="inv" href="https://linkedin.com/in/karl-keshavarzi" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="inv" href="mailto:karl.keshavarzi@uwaterloo.ca">karl.keshavarzi@uwaterloo.ca</a>
     </div>
-
-    <p class="email"><a class="inv" href="mailto:karl.keshavarzi@uwaterloo.ca">karl.keshavarzi@uwaterloo.ca</a></p>
-
-    <p class="quote">"What I cannot create, I do not understand." &#8212; Richard Feynman</p>
 
     <div class="sig">}</div>
   </header>
@@ -401,7 +404,7 @@
       <article class="entry plain">
         <div class="entry-head">
           <h3>Software Engineering Intern</h3>
-          <span class="date">May &#8212; Aug 2026</span>
+          <span class="date">May 2026 &#8212; Aug 2026</span>
         </div>
         <p class="org">Shopify</p>
       </article>
@@ -411,7 +414,23 @@
           <h3>Founder, HPC Engineer</h3>
           <span class="date">Jan 2026 &#8212; Present</span>
         </div>
-        <p class="org">UWHPC, SDC Design Team</p>
+        <p class="org">UWHPC, Sedra Design Team</p>
+      </article>
+
+      <article class="entry plain">
+        <div class="entry-head">
+          <h3>Undergraduate Researcher</h3>
+          <span class="date">May 2026 &#8212; Present</span>
+        </div>
+        <p class="org">University of Waterloo, ECE</p>
+      </article>
+
+      <article class="entry plain">
+        <div class="entry-head">
+          <h3>Undergraduate Researcher</h3>
+          <span class="date">Sep 2026 &#8212; Present</span>
+        </div>
+        <p class="org">University of Waterloo, IQOL</p>
       </article>
     </div>
   </section>
@@ -419,7 +438,7 @@
   <div class="rule" style="margin-top:64px"></div>
 
   <section id="projects">
-    <p class="eyebrow mapref"><span class="addr">0x0010</span> Projects</p>
+    <p class="eyebrow mapref"><span class="addr">0x0020</span> Projects</p>
 
     <div class="list">
       <article class="entry">
@@ -514,7 +533,7 @@
   <div class="rule" style="margin-top:64px"></div>
 
   <section id="writing">
-    <p class="eyebrow mapref"><span class="addr">0x0038</span> Writing</p>
+    <p class="eyebrow mapref"><span class="addr">0x0048</span> Writing</p>
     <div class="list">
       <a class="entry" href="/blog/pre-waterloo-thoughts/">
         <div class="entry-head">
@@ -528,7 +547,10 @@
 
   <div class="rule" style="margin-top:64px"></div>
 
-  <footer>&#169; 2026 Karl Keshavarzi</footer>
+  <footer>
+    <span>&#169; 2026 Karl Keshavarzi</span>
+    <span class="quote">"What I cannot create, I do not understand." &#8212; Richard Feynman</span>
+  </footer>
 
 </main>
 
