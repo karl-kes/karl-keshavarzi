@@ -1,21 +1,575 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
-  <head>
-    <script>
-      (function() {
-        var redirect = new URLSearchParams(window.location.search).get('p');
-        if (redirect) {
-          window.history.replaceState(null, '', redirect);
-        }
-      })();
-    </script>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.png"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karl Keshavarzi</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karl Keshavarzi</title>
+<meta name="description" content="Computer Engineering at the University of Waterloo. Low-level systems and HPC software: CUDA kernels, parallel solvers, ML compilers.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Karl Keshavarzi">
+<meta property="og:description" content="Computer Engineering at the University of Waterloo. Low-level systems and HPC software.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://karlkes.uwce.ca/">
+<style>
+  /* Committed single-theme page: warm cream paper, ink blue.
+     No containers anywhere. Hierarchy comes from type, space, and hairlines. */
+  :root {
+    --paper:    #f4efe3;
+    --rule:     #cfc5ae;
+    --ink:      #1a1813;
+    --ink-soft: #6b6252;
+    --accent:   #23407a;
+    --dither:   rgba(26, 24, 19, .07);
+
+    /* serif carries what a person wrote; mono carries what the machine reports */
+    --serif: Georgia, "Times New Roman", Times, serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", "Segoe UI Mono", "Roboto Mono", Menlo, Consolas, monospace;
+
+    /* 8px grid */
+    --u:  8px;
+    --u2: 16px;
+    --u3: 24px;
+    --u4: 32px;
+    --u6: 48px;
+    --u8: 64px;
+    --u10: 80px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    /* sections already carry 64px of top padding, so this only adds the
+       air needed to clear the 48px sticky nav */
+    scroll-padding-top: var(--u4);
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 0;
+  }
+
+  /* ---- nav ---- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: color-mix(in srgb, var(--paper) 90%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .nav-inner {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 var(--u3);
+    height: var(--u6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--u2);
+  }
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: -.01em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .wordmark .dot { color: var(--accent); }
+
+  .nav-links { display: flex; gap: var(--u2); }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 2px 0 6px;
+    position: relative;
+    transition: color .16s steps(2);
+  }
+  /* pixel-dashed underline marks the section you're in */
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background-image: repeating-linear-gradient(90deg, var(--accent) 0 2px, transparent 2px 4px);
+    opacity: 0;
+    transition: opacity .16s steps(2);
+  }
+  .nav-links a:hover,
+  .nav-links a.on { color: var(--ink); }
+  .nav-links a.on::after { opacity: 1; }
+  /* address-of operator: each link is a pointer to a section */
+  .amp { color: var(--accent); }
+
+  /* ---- shell ---- */
+  main {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 var(--u3) var(--u10);
+  }
+
+  /* ---- hero ---- */
+  .hero {
+    position: relative;
+    padding: var(--u10) 0 var(--u8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--u3);
+  }
+  /* 4px checkerboard dither, faded out downward */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: -24px -40px auto -40px;
+    height: 300px;
+    background-image:
+      linear-gradient(45deg, var(--dither) 25%, transparent 25%, transparent 75%, var(--dither) 75%),
+      linear-gradient(45deg, var(--dither) 25%, transparent 25%, transparent 75%, var(--dither) 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 2px 2px;
+    -webkit-mask-image: linear-gradient(180deg, #000, transparent);
+    mask-image: linear-gradient(180deg, #000, transparent);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; margin: 0; }
+
+  .sig {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .sig .fn { color: var(--ink); }
+
+  .name {
+    font-family: var(--serif);
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: -.015em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .cursor {
+    display: inline-block;
+    width: 14px;
+    height: 30px;
+    margin-left: 6px;
+    vertical-align: -4px;
+    background: var(--accent);
+    animation: blink 1.12s steps(1, end) infinite;
+  }
+  @keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+  .role {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: var(--u) !important;
+  }
+
+  .bio { max-width: 60ch; }
+
+  /* print-style inverted hover */
+  .inv {
+    text-decoration: none;
+    padding: 1px 3px;
+    margin: 0 -3px;
+    transition: background-color .12s steps(2), color .12s steps(2);
+  }
+  .inv:hover { background: var(--accent); color: var(--paper); }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--u2);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  /* the address itself, not a button that hides it */
+  .email {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .email a { text-decoration: none; }
+
+  /* ---- section scaffolding ---- */
+  .rule {
+    height: 2px;
+    background-image: repeating-linear-gradient(90deg, var(--rule) 0 2px, transparent 2px 6px);
+  }
+  section { padding: var(--u8) 0 0; }
+  /* section labels are rows of a memory map: offset, then name.
+     offsets advance by 8 bytes per entry, so they are derived, not decorative. */
+  .mapref {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    color: var(--ink-soft);
+  }
+  .eyebrow {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 0 0 var(--u6);
+  }
+  .addr {
+    color: var(--accent);
+    letter-spacing: .06em;
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+
+  /* ---- projects: no container, space does the separating ---- */
+  .list { display: flex; flex-direction: column; gap: var(--u6); }
+
+  .entry { display: flex; flex-direction: column; gap: var(--u); }
+  .entry-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--u2);
+  }
+  .entry h3 {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -.005em;
+    line-height: 1.3;
+    margin: 0;
+    transition: color .12s steps(2);
+  }
+  .entry:not(.plain):hover h3 { color: var(--accent); }
+
+  /* experience sits tighter than projects and has no hover affordance */
+  .list.tight { gap: var(--u4); }
+  .org {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .eq {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    white-space: nowrap;
+    flex: none;
+  }
+  .entry p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 60ch;
+  }
+
+  .entry-foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--u) var(--u2);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  /* hairline delimiters, like columns in a listing */
+  .tech span + span::before {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background: var(--rule);
+    margin: 0 9px -1px 5px;
+  }
+  .entry-links { display: flex; gap: var(--u2); flex: none; }
+
+  /* ---- writing ---- */
+  .date {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+  a.entry { text-decoration: none; }
+  a.entry h3 { font-weight: 500; }
+
+  /* ---- footer ---- */
+  /* closing line of greet(), so the hero's flex gap handles its spacing */
+  .quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 60ch;
+  }
+  footer {
+    margin-top: var(--u8);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  /* ---- quantized scroll reveal ---- */
+  .rv {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .32s steps(4), transform .32s steps(4);
+  }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rv { opacity: 1; transform: none; transition: none; }
+    .cursor { animation: none; }
+    * { transition-duration: .01ms !important; }
+  }
+
+  @media (max-width: 620px) {
+    .nav-inner, main { padding-left: var(--u2); padding-right: var(--u2); }
+    /* the & prefixes make the nav wider, so the wordmark yields the row */
+    .wordmark { display: none; }
+    .nav-inner { justify-content: center; }
+    .nav-links { gap: 12px; }
+    .nav-links a { font-size: 12px; }
+    .name { font-size: 32px; }
+    .cursor { height: 23px; width: 11px; vertical-align: -3px; }
+    .hero { padding-top: var(--u6); }
+    .entry-head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="wordmark" href="#top">karl<span class="dot">.</span>keshavarzi</a>
+    <div class="nav-links">
+      <a href="#about"><span class="amp">&amp;</span>about</a>
+      <a href="#experience"><span class="amp">&amp;</span>experience</a>
+      <a href="#projects"><span class="amp">&amp;</span>projects</a>
+      <a href="#writing"><span class="amp">&amp;</span>writing</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <header class="hero" id="about">
+    <div class="sig"><span>void</span> <span class="fn">greet</span>() <span>const</span> {</div>
+
+    <div>
+      <h1 class="name">Karl Keshavarzi<span class="cursor"></span></h1>
+      <p class="role">Computer Engineering @ University of Waterloo</p>
+    </div>
+
+    <p class="bio">
+      I write low-level systems and HPC software: CUDA kernels, parallel solvers, and code
+      that lives close to the hardware. My research experience centers on distributed GPU
+      algorithms for maximal independent sets. I've recently begun work on ML compilers.
+      Open to discussing new opportunities and collaborations. Feel free to reach out.
+    </p>
+
+    <div class="links">
+      <a class="inv" href="https://github.com/karl-kes" target="_blank" rel="noopener">GitHub</a>
+      <a class="inv" href="https://linkedin.com/in/karl-keshavarzi" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+    <p class="email"><a class="inv" href="mailto:karl.keshavarzi@uwaterloo.ca">karl.keshavarzi@uwaterloo.ca</a></p>
+
+    <p class="quote">"What I cannot create, I do not understand." &#8212; Richard Feynman</p>
+
+    <div class="sig">}</div>
+  </header>
+
+  <div class="rule"></div>
+
+  <section id="experience">
+    <p class="eyebrow mapref"><span class="addr">0x0000</span> Experience</p>
+
+    <div class="list tight">
+      <article class="entry plain rv">
+        <div class="entry-head">
+          <h3>Software Engineering Intern</h3>
+          <span class="date">May &#8212; Aug 2026</span>
+        </div>
+        <p class="org">Shopify</p>
+      </article>
+
+      <article class="entry plain rv">
+        <div class="entry-head">
+          <h3>Founder, HPC Engineer</h3>
+          <span class="date">Jan 2026 &#8212; Present</span>
+        </div>
+        <p class="org">UW High Performance Computing</p>
+      </article>
+    </div>
+  </section>
+
+  <div class="rule" style="margin-top:64px"></div>
+
+  <section id="projects">
+    <p class="eyebrow mapref"><span class="addr">0x0010</span> Projects</p>
+
+    <div class="list">
+      <article class="entry rv">
+        <div class="entry-head">
+          <h3>xpu</h3>
+          <span class="eq">host &#8801; device</span>
+        </div>
+        <p>
+          A header-only C++23 portability layer for CPU and CUDA. The same types and the same call
+          sites compile for either backend, so memory, alignment, layout, and math get written once
+          instead of wrapped in #ifdef. Includes an SoA container that packs N arrays into a single
+          aligned allocation (early, API in flux).
+        </p>
+        <div class="entry-foot">
+          <div class="tech"><span>C++23</span><span>CUDA</span><span>CMake</span></div>
+          <div class="entry-links">
+            <a class="inv" href="https://github.com/UWHPC/xpu" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry rv">
+        <div class="entry-head">
+          <h3>Variational Monte Carlo</h3>
+          <span class="eq">E[&#936;] = &#10216;&#936;|H|&#936;&#10217;</span>
+        </div>
+        <p>
+          A Variational Monte Carlo engine simulating the homogeneous electron gas, built as part of
+          UW High Performance Computing. Uses a trial wavefunction and stochastic optimization to
+          estimate ground-state energies.
+        </p>
+        <div class="entry-foot">
+          <div class="tech"><span>C++23</span><span>CMake</span><span>Catch2</span><span>Python</span></div>
+          <div class="entry-links">
+            <a class="inv" href="https://github.com/UWHPC/Variational-Monte-Carlo" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry rv">
+        <div class="entry-head">
+          <h3>3D Heat Solver</h3>
+          <span class="eq">&#8706;T/&#8706;t = &#945;&#8711;&#178;T</span>
+        </div>
+        <p>
+          A C++ solver for the 3D heat equation using an explicit forward Euler finite-difference
+          scheme, with dual-backend CPU (OpenMP/SIMD) and GPU (CUDA) execution from unified source.
+          Achieves 60-68x GPU speedup at large grid sizes, validated against Neumann eigenfunction
+          solutions.
+        </p>
+        <div class="entry-foot">
+          <div class="tech"><span>CUDA</span><span>C++20</span><span>OpenMP</span><span>CMake</span></div>
+          <div class="entry-links">
+            <a class="inv" href="https://raw.githubusercontent.com/karl-kes/3d-heat-solver/main/docs/paper.pdf" target="_blank" rel="noopener">Paper</a>
+            <a class="inv" href="https://github.com/karl-kes/3d-heat-solver" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry rv">
+        <div class="entry-head">
+          <h3>Finite-Difference Maxwell Solver</h3>
+          <span class="eq">&#8711;&#215;E = &#8722;&#8706;B/&#8706;t</span>
+        </div>
+        <p>
+          A 3D Finite-Difference Time-Domain (FDTD) Maxwell solver with CPML boundary conditions.
+          Capable of simulating and visualizing electromagnetic vector fields. Parallelized with
+          OpenMP (CUDA in progress).
+        </p>
+        <div class="entry-foot">
+          <div class="tech"><span>C++17</span><span>OpenMP</span><span>Python</span><span>Plotly</span></div>
+          <div class="entry-links">
+            <a class="inv" href="https://github.com/karl-kes/Finite-Difference-Maxwell-Solver" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry rv">
+        <div class="entry-head">
+          <h3>N-Body Gravity Engine</h3>
+          <span class="eq">F = Gm&#8321;m&#8322;/r&#178;</span>
+        </div>
+        <p>
+          An N-body engine capable of simulating gravity using Newtonian mechanics. Uses symplectic
+          integration to conserve energy; validated against NASA JPL Horizons data.
+        </p>
+        <div class="entry-foot">
+          <div class="tech"><span>C++17</span><span>OpenMP</span><span>Python</span><span>Matplotlib</span></div>
+          <div class="entry-links">
+            <a class="inv" href="https://raw.githubusercontent.com/karl-kes/N-Body-Physics-Engine/main/docs/N_Body_Technical_Paper.pdf" target="_blank" rel="noopener">Paper</a>
+            <a class="inv" href="https://github.com/karl-kes/N-Body-Physics-Engine" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="rule" style="margin-top:64px"></div>
+
+  <section id="writing">
+    <p class="eyebrow mapref"><span class="addr">0x0038</span> Writing</p>
+    <div class="list">
+      <a class="entry rv" href="/blog/pre-waterloo-thoughts/">
+        <div class="entry-head">
+          <h3>Before My First Term &#8212; Thoughts and Advice</h3>
+          <span class="date">2025.08.31</span>
+        </div>
+        <p>Reflections on the admission process, senior year, and looking forward to starting at Waterloo.</p>
+      </a>
+    </div>
+  </section>
+
+  <div class="rule" style="margin-top:64px"></div>
+
+  <footer>&#169; 2026 Karl Keshavarzi</footer>
+
+</main>
+
+<script>
+  (function () {
+    var links = [].slice.call(document.querySelectorAll('.nav-links a'));
+
+    // quantized reveal
+    var reveal = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    document.querySelectorAll('.rv').forEach(function (el) { reveal.observe(el); });
+
+    // scroll spy
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) {
+          a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id);
+        });
+      });
+    }, { rootMargin: '-48px 0px -70% 0px' });
+    document.querySelectorAll('section, .hero').forEach(function (s) { spy.observe(s); });
+  })();
+</script>
+</body>
 </html>

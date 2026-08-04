@@ -1,3 +1,3 @@
 # Personal Portfolio
 
-Check it out [here](https://karlkes.uwce.ca/) :)
+Check it out [here](https://karlkes.uwce.ca/).
