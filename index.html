@@ -329,17 +329,8 @@
     color: var(--ink-soft);
   }
 
-  /* ---- quantized scroll reveal ---- */
-  .rv {
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity .32s steps(4), transform .32s steps(4);
-  }
-  .rv.in { opacity: 1; transform: none; }
-
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .rv { opacity: 1; transform: none; transition: none; }
     .cursor { animation: none; }
     * { transition-duration: .01ms !important; }
   }
@@ -383,10 +374,10 @@
     </div>
 
     <p class="bio">
-      I write low-level systems and HPC software: CUDA kernels, parallel solvers, and code
-      that lives close to the hardware. My research experience centers on distributed GPU
-      algorithms for maximal independent sets. I've recently begun work on ML compilers.
-      Open to discussing new opportunities and collaborations. Feel free to reach out.
+      I enjoy writing low-level systems and software, especially with C++. My research
+      experience focuses on distributed GPU algorithms for maximal independent sets. I'm
+      particularly interested in HFT, GPU programming, and ML infrastructure. Open to
+      discussing new opportunities and collaborations. Feel free to reach out.
     </p>
 
     <div class="links">
@@ -407,7 +398,7 @@
     <p class="eyebrow mapref"><span class="addr">0x0000</span> Experience</p>
 
     <div class="list tight">
-      <article class="entry plain rv">
+      <article class="entry plain">
         <div class="entry-head">
           <h3>Software Engineering Intern</h3>
           <span class="date">May &#8212; Aug 2026</span>
@@ -415,12 +406,12 @@
         <p class="org">Shopify</p>
       </article>
 
-      <article class="entry plain rv">
+      <article class="entry plain">
         <div class="entry-head">
           <h3>Founder, HPC Engineer</h3>
           <span class="date">Jan 2026 &#8212; Present</span>
         </div>
-        <p class="org">UW High Performance Computing</p>
+        <p class="org">UWHPC, SDC Design Team</p>
       </article>
     </div>
   </section>
@@ -431,56 +422,51 @@
     <p class="eyebrow mapref"><span class="addr">0x0010</span> Projects</p>
 
     <div class="list">
-      <article class="entry rv">
+      <article class="entry">
         <div class="entry-head">
           <h3>xpu</h3>
           <span class="eq">host &#8801; device</span>
         </div>
         <p>
-          A header-only C++23 portability layer for CPU and CUDA. The same types and the same call
-          sites compile for either backend, so memory, alignment, layout, and math get written once
-          instead of wrapped in #ifdef. Includes an SoA container that packs N arrays into a single
-          aligned allocation (early, API in flux).
+          A header-only C++23 library that lets the same allocation, layout,
+          and math code compile for either CPU or CUDA. Forget about #ifdef wrapping.
         </p>
         <div class="entry-foot">
-          <div class="tech"><span>C++23</span><span>CUDA</span><span>CMake</span></div>
+          <div class="tech"><span>C++23</span><span>CUDA</span><span>UWHPC</span></div>
           <div class="entry-links">
             <a class="inv" href="https://github.com/UWHPC/xpu" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
       </article>
 
-      <article class="entry rv">
+      <article class="entry">
         <div class="entry-head">
           <h3>Variational Monte Carlo</h3>
           <span class="eq">E[&#936;] = &#10216;&#936;|H|&#936;&#10217;</span>
         </div>
         <p>
-          A Variational Monte Carlo engine simulating the homogeneous electron gas, built as part of
-          UW High Performance Computing. Uses a trial wavefunction and stochastic optimization to
-          estimate ground-state energies.
+          Stochastically computes ground-state energies no analytic solution can reach.
+          Halving the error costs four times the samples, so accuracy is a compute budget.
         </p>
         <div class="entry-foot">
-          <div class="tech"><span>C++23</span><span>CMake</span><span>Catch2</span><span>Python</span></div>
+          <div class="tech"><span>C++23</span><span>CUDA</span><span>Python</span><span>UWHPC</span></div>
           <div class="entry-links">
             <a class="inv" href="https://github.com/UWHPC/Variational-Monte-Carlo" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
       </article>
 
-      <article class="entry rv">
+      <article class="entry">
         <div class="entry-head">
-          <h3>3D Heat Solver</h3>
+          <h3>Heat Solver</h3>
           <span class="eq">&#8706;T/&#8706;t = &#945;&#8711;&#178;T</span>
         </div>
         <p>
-          A C++ solver for the 3D heat equation using an explicit forward Euler finite-difference
-          scheme, with dual-backend CPU (OpenMP/SIMD) and GPU (CUDA) execution from unified source.
-          Achieves 60-68x GPU speedup at large grid sizes, validated against Neumann eigenfunction
-          solutions.
+           Hits 91% of theoretical memory bandwidth on GPU, 68× faster than the multithreaded,
+           vectorized CPU at 134M cells. Validated with analytical solutions.
         </p>
         <div class="entry-foot">
-          <div class="tech"><span>CUDA</span><span>C++20</span><span>OpenMP</span><span>CMake</span></div>
+          <div class="tech"><span>C++20</span><span>CUDA</span></div>
           <div class="entry-links">
             <a class="inv" href="https://raw.githubusercontent.com/karl-kes/3d-heat-solver/main/docs/paper.pdf" target="_blank" rel="noopener">Paper</a>
             <a class="inv" href="https://github.com/karl-kes/3d-heat-solver" target="_blank" rel="noopener">Source</a>
@@ -488,32 +474,31 @@
         </div>
       </article>
 
-      <article class="entry rv">
+      <article class="entry">
         <div class="entry-head">
-          <h3>Finite-Difference Maxwell Solver</h3>
+          <h3>Maxwell Solver</h3>
           <span class="eq">&#8711;&#215;E = &#8722;&#8706;B/&#8706;t</span>
         </div>
         <p>
-          A 3D Finite-Difference Time-Domain (FDTD) Maxwell solver with CPML boundary conditions.
-          Capable of simulating and visualizing electromagnetic vector fields. Parallelized with
-          OpenMP (CUDA in progress).
+          11× faster with CUDA than the OpenMP path on 28M-cell grids. Cache-aligned SoA
+          and SIMD cut CPU kernel time 44% over the AoS baseline.
         </p>
         <div class="entry-foot">
-          <div class="tech"><span>C++17</span><span>OpenMP</span><span>Python</span><span>Plotly</span></div>
+          <div class="tech"><span>C++17</span><span>CUDA</span><span>Python</span></div>
           <div class="entry-links">
             <a class="inv" href="https://github.com/karl-kes/Finite-Difference-Maxwell-Solver" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
       </article>
 
-      <article class="entry rv">
+      <article class="entry">
         <div class="entry-head">
           <h3>N-Body Gravity Engine</h3>
           <span class="eq">F = Gm&#8321;m&#8322;/r&#178;</span>
         </div>
         <p>
-          An N-body engine capable of simulating gravity using Newtonian mechanics. Uses symplectic
-          integration to conserve energy; validated against NASA JPL Horizons data.
+          Barnes-Hut gives 53× over a direct OpenMP kernel at 131K bodies. A 4th-order
+          Yoshida integrator holds energy error to 2e-12 across 249 simulated years.
         </p>
         <div class="entry-foot">
           <div class="tech"><span>C++17</span><span>OpenMP</span><span>Python</span><span>Matplotlib</span></div>
@@ -531,7 +516,7 @@
   <section id="writing">
     <p class="eyebrow mapref"><span class="addr">0x0038</span> Writing</p>
     <div class="list">
-      <a class="entry rv" href="/blog/pre-waterloo-thoughts/">
+      <a class="entry" href="/blog/pre-waterloo-thoughts/">
         <div class="entry-head">
           <h3>Before My First Term &#8212; Thoughts and Advice</h3>
           <span class="date">2025.08.31</span>
@@ -550,14 +535,6 @@
 <script>
   (function () {
     var links = [].slice.call(document.querySelectorAll('.nav-links a'));
-
-    // quantized reveal
-    var reveal = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
-      });
-    }, { rootMargin: '0px 0px -10% 0px' });
-    document.querySelectorAll('.rv').forEach(function (el) { reveal.observe(el); });
 
     // scroll spy
     var spy = new IntersectionObserver(function (entries) {
